@@ -6,8 +6,11 @@ use Plenty\Modules\Plugin\Traits\ActsAsModel;
 
 /**
  * Database model
+ *
+ * PHPStan-Fix: Abstract methods removed — they are provided at runtime by Eloquent.
+ * Original: https://github.com/plentymarkets/plugin-interface (beta7)
  */
-abstract class Model 
+abstract class Model
 {
 
 	const FIELD_TYPE_INT = 'int';
@@ -25,51 +28,60 @@ abstract class Model
 	const FIELD_TYPE_TEXT = 'text';
 
 	const FIELD_TYPES = ['int','decimal','string','bool','array','text'];
-	
+
 protected		$primaryKeyFieldName = "id";
-	
+
 protected		$primaryKeyFieldType = "int";
-	
+
 protected		$autoIncrementPrimaryKey = true;
-	
+
 protected		$textFields;
-	
+
 protected		$attributes;
-	
+
 protected		$original;
-	
+
 protected		$changes;
-	
+
 protected		$casts;
-	
+
 protected		$dates;
-	
+
 protected		$dateFormat = null;
-	
+
 protected static 		$mutatorCache;
-	
+
 	abstract public function getTableName(
 	):string;
 
 	/**
 	 * Convert the model's attributes to an array.
 	 */
-	abstract public function attributesToArray(
-	):array;
+	public function attributesToArray(
+	):array
+	{
+		return [];
+	}
 
 	/**
 	 * Get an attribute from the model.
 	 */
-	abstract public function getAttribute(
+	public function getAttribute(
 		string $key
-	);
+	)
+	{
+		return null;
+	}
 
 	/**
 	 * Get a plain attribute
 	 */
-	abstract public function getAttributeValue(
+	public function getAttributeValue(
 		string $key
-	);
+	)
+	{
+		return null;
+	}
 
 	/**
 	 * Get an attribute from the $attributes array.
@@ -83,15 +95,18 @@ protected static 		$mutatorCache;
 	/**
 	 * Determine if a get mutator exists for an attribute.
 	 */
-	abstract public function hasGetMutator(
+	public function hasGetMutator(
 		string $key
-	):bool;
+	):bool
+	{
+		return false;
+	}
 
 	/**
 	 * Get the value of an attribute using its mutator.
 	 */
 	protected function mutateAttribute(
-		string $key, 
+		string $key,
 		 $value
 	)
 	{
@@ -101,7 +116,7 @@ protected static 		$mutatorCache;
 	 * Get the value of an attribute using its mutator for array conversion.
 	 */
 	protected function mutateAttributeForArray(
-		string $key, 
+		string $key,
 		 $value
 	)
 	{
@@ -110,163 +125,233 @@ protected static 		$mutatorCache;
 	/**
 	 * Set a given attribute on the model.
 	 */
-	abstract public function setAttribute(
-		string $key, 
+	public function setAttribute(
+		string $key,
 		 $value
-	):self;
+	):self
+	{
+		return $this;
+	}
 
 	/**
 	 * Determine if a set mutator exists for an attribute.
 	 */
-	abstract public function hasSetMutator(
+	public function hasSetMutator(
 		string $key
-	):bool;
+	):bool
+	{
+		return false;
+	}
 
 	/**
 	 * Set a given JSON attribute on the model.
 	 */
-	abstract public function fillJsonAttribute(
-		string $key, 
+	public function fillJsonAttribute(
+		string $key,
 		 $value
-	):self;
+	):self
+	{
+		return $this;
+	}
 
 	/**
 	 * Decode the given JSON back into an array or object.
 	 */
-	abstract public function fromJson(
-		string $value, 
+	public function fromJson(
+		string $value,
 		bool $asObject = false
-	);
+	)
+	{
+		return null;
+	}
 
 	/**
 	 * Convert a DateTime to a storable string.
 	 */
-	abstract public function fromDateTime(
+	public function fromDateTime(
 		 $value
-	):string;
+	):string
+	{
+		return '';
+	}
 
 	/**
 	 * Get the attributes that should be converted to dates.
 	 */
-	abstract public function getDates(
-	):array;
+	public function getDates(
+	):array
+	{
+		return [];
+	}
 
 	/**
 	 * Set the date format used by the model.
 	 */
-	abstract public function setDateFormat(
+	public function setDateFormat(
 		string $format
-	):self;
+	):self
+	{
+		return $this;
+	}
 
 	/**
 	 * Determine whether an attribute should be cast to a native type.
 	 */
-	abstract public function hasCast(
-		string $key, 
+	public function hasCast(
+		string $key,
 		 $types = null
-	):bool;
+	):bool
+	{
+		return false;
+	}
 
 	/**
 	 * Get the casts array.
 	 */
-	abstract public function getCasts(
-	):array;
+	public function getCasts(
+	):array
+	{
+		return [];
+	}
 
 	/**
 	 * Get all of the current attributes on the model.
 	 */
-	abstract public function getAttributes(
-	):array;
+	public function getAttributes(
+	):array
+	{
+		return [];
+	}
 
 	/**
 	 * Set the array of model attributes. No checking is done.
 	 */
-	abstract public function setRawAttributes(
-		array $attributes, 
+	public function setRawAttributes(
+		array $attributes,
 		bool $sync = false
-	):self;
+	):self
+	{
+		return $this;
+	}
 
 	/**
 	 * Get the model's original attribute values.
 	 */
-	abstract public function getOriginal(
-		string $key = null, 
+	public function getOriginal(
+		string $key = null,
 		 $default = null
-	);
+	)
+	{
+		return null;
+	}
 
 	/**
 	 * Get a subset of the model's attributes.
 	 */
-	abstract public function only(
+	public function only(
 		 $attributes
-	):array;
+	):array
+	{
+		return [];
+	}
 
 	/**
 	 * Sync the original attributes with the current.
 	 */
-	abstract public function syncOriginal(
-	):self;
+	public function syncOriginal(
+	):self
+	{
+		return $this;
+	}
 
 	/**
 	 * Sync a single original attribute with its current value.
 	 */
-	abstract public function syncOriginalAttribute(
+	public function syncOriginalAttribute(
 		string $attribute
-	):self;
+	):self
+	{
+		return $this;
+	}
 
 	/**
 	 * Sync the changed attributes.
 	 */
-	abstract public function syncChanges(
-	):self;
+	public function syncChanges(
+	):self
+	{
+		return $this;
+	}
 
 	/**
 	 * Determine if the model or given attribute(s) have been modified.
 	 */
-	abstract public function isDirty(
+	public function isDirty(
 		 $attributes = null
-	):bool;
+	):bool
+	{
+		return false;
+	}
 
 	/**
 	 * Determine if the model or given attribute(s) have remained the same.
 	 */
-	abstract public function isClean(
+	public function isClean(
 		 $attributes = null
-	):bool;
+	):bool
+	{
+		return true;
+	}
 
 	/**
 	 * Determine if the model or given attribute(s) have been modified.
 	 */
-	abstract public function wasChanged(
+	public function wasChanged(
 		 $attributes = null
-	):bool;
+	):bool
+	{
+		return false;
+	}
 
 	/**
 	 * Get the attributes that have been changed since last sync.
 	 */
-	abstract public function getDirty(
-	):array;
+	public function getDirty(
+	):array
+	{
+		return [];
+	}
 
 	/**
 	 * Get the attributes that were changed.
 	 */
-	abstract public function getChanges(
-	):array;
+	public function getChanges(
+	):array
+	{
+		return [];
+	}
 
 	/**
 	 * Get the mutated attributes for a given instance.
 	 */
-	abstract public function getMutatedAttributes(
-	):array;
+	public function getMutatedAttributes(
+	):array
+	{
+		return [];
+	}
 
 	/**
 	 * Extract and cache all the mutated attributes of a class.
 	 */
-	abstract public static function cacheMutatedAttributes(
+	public static function cacheMutatedAttributes(
 		string $class
-	);
+	)
+	{
+	}
 
-	abstract public function relationLoaded(
-	);
+	public function relationLoaded(
+	)
+	{
+	}
 
 }
