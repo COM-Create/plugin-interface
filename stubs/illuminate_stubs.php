@@ -64,6 +64,7 @@ namespace Illuminate\Support\Facades {
          * @param string $url
          * @param array<string, mixed> $query
          * @return \Illuminate\Http\Client\Response
+         * @throws \Illuminate\Http\Client\ConnectionException
          */
         public static function get(string $url, array $query = []): \Illuminate\Http\Client\Response
         {
@@ -74,6 +75,7 @@ namespace Illuminate\Support\Facades {
          * @param string $url
          * @param array<string, mixed> $data
          * @return \Illuminate\Http\Client\Response
+         * @throws \Illuminate\Http\Client\ConnectionException
          */
         public static function post(string $url, array $data = []): \Illuminate\Http\Client\Response
         {
@@ -109,6 +111,27 @@ namespace Illuminate\Support\Facades {
 
 namespace Illuminate\Http\Client {
 
+    /**
+     * Thrown when a connection to the remote server cannot be established.
+     */
+    class ConnectionException extends \RuntimeException {}
+
+    /**
+     * Thrown when Response::throw() or PendingRequest::throw() is called
+     * and the response indicates an HTTP error (4xx/5xx).
+     */
+    class RequestException extends \RuntimeException
+    {
+        /** @var Response */
+        public $response;
+
+        public function __construct(Response $response)
+        {
+            $this->response = $response;
+            parent::__construct('HTTP request returned status code ' . $response->status());
+        }
+    }
+
     class PendingRequest
     {
         /**
@@ -125,9 +148,9 @@ namespace Illuminate\Http\Client {
 
         /**
          * @return self
-         * @throws \Exception
+         * @throws RequestException
          */
-        public function throw(): self { throw new \Exception(); }
+        public function throw(): self { throw new RequestException(new Response()); }
 
         /**
          * @param int $seconds
@@ -139,6 +162,7 @@ namespace Illuminate\Http\Client {
          * @param string $url
          * @param array<string, mixed> $query
          * @return Response
+         * @throws ConnectionException
          */
         public function get(string $url, array $query = []): Response { return new Response(); }
 
@@ -146,6 +170,7 @@ namespace Illuminate\Http\Client {
          * @param string $url
          * @param array<string, mixed> $data
          * @return Response
+         * @throws ConnectionException
          */
         public function post(string $url, array $data = []): Response { return new Response(); }
 
@@ -153,6 +178,7 @@ namespace Illuminate\Http\Client {
          * @param string $url
          * @param array<string, mixed> $data
          * @return Response
+         * @throws ConnectionException
          */
         public function put(string $url, array $data = []): Response { return new Response(); }
 
@@ -160,6 +186,7 @@ namespace Illuminate\Http\Client {
          * @param string $url
          * @param array<string, mixed> $data
          * @return Response
+         * @throws ConnectionException
          */
         public function patch(string $url, array $data = []): Response { return new Response(); }
 
@@ -167,6 +194,7 @@ namespace Illuminate\Http\Client {
          * @param string $url
          * @param array<string, mixed> $data
          * @return Response
+         * @throws ConnectionException
          */
         public function delete(string $url, array $data = []): Response { return new Response(); }
     }
@@ -214,9 +242,9 @@ namespace Illuminate\Http\Client {
 
         /**
          * @return self
-         * @throws \Exception
+         * @throws RequestException
          */
-        public function throw(): self { throw new \Exception(); }
+        public function throw(): self { throw new RequestException($this); }
 
         /**
          * @return array<mixed>

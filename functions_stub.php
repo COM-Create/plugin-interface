@@ -1,10 +1,10 @@
 <?php
 
 	 function pluginApp(
-		string $abstract, 
+		string $abstract,
 		array $parameters = []
 	)
-	{ return null; }
+	{ return new $abstract($parameters); }
 
 	 function publicPath(
 		string $pluginName = null
