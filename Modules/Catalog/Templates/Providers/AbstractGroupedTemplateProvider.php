@@ -17,103 +17,172 @@ use Plenty\Modules\Catalog\Services\UI\Sections\Sections;
 
 /**
  * The AbstractGroupedTemplateProvider is the abstract class that should be used to implement a template provider.
+ *
+ * PHPStan-Fix: Non-essential abstract methods given default implementations.
+ * The original plentymarkets/plugin-interface declares ALL methods as abstract,
+ * but at runtime Plenty provides default implementations for most of them.
+ * Only getTemplateGroupContainer(), getFilterContainer(), getCustomFilterContainer()
+ * MUST be implemented by each concrete provider — the rest get sensible defaults here.
+ *
+ * Without these defaults, any non-abstract class extending this (e.g. DynamicTemplateProvider)
+ * triggers non-ignorable PHPStan "method.abstract" errors for every unimplemented method.
  */
 abstract class AbstractGroupedTemplateProvider implements CatalogGroupedTemplateProviderContract
 
 {
 
-	abstract public function isPreviewable(
-	):bool;
+	public function isPreviewable(
+	):bool
+	{
+		return false;
+	}
 
-	abstract public function allowsCustomFilter(
-	):bool;
+	public function allowsCustomFilter(
+	):bool
+	{
+		return false;
+	}
 
-	abstract public function getDynamicConfig(
-	):CatalogDynamicConfigContract;
+	public function getDynamicConfig(
+	):CatalogDynamicConfigContract
+	{
+		return pluginApp(EmptyCatalogDynamicConfig::class);
+	}
 
 	/**
 	 * Returns the Mutator instance that should be called to manipulate data before the mapping.
 	 */
-	abstract public function getPreMutator(
-	):CatalogMutatorContract;
+	public function getPreMutator(
+	):CatalogMutatorContract
+	{
+		return pluginApp(EmptyCatalogMutatorContract::class);
+	}
 
 	/**
 	 * Returns the Mutator instance that should be called to manipulate data after the mapping.
 	 */
-	abstract public function getPostMutator(
-	):CatalogMutatorContract;
+	public function getPostMutator(
+	):CatalogMutatorContract
+	{
+		return pluginApp(EmptyCatalogMutator::class);
+	}
 
 	/**
-	 * Returns a callback function that is called if a field with the specific key "sku" got mapped. The function will receive the value that got mapped, the raw data array of this item and the type of the mapped source. It should return the new value (e.g. function ($value, array $item, $mappingType){ --your code-- return $value})).
+	 * Returns a callback function that is called if a field with the specific key "sku" got mapped.
 	 */
-	abstract public function getSkuCallback(
-	):callable;
+	public function getSkuCallback(
+	):callable
+	{
+		return function ($value, array $item, $mappingType) { return $value; };
+	}
 
 	/**
-	 * Returns an array of settings that will be displayed in the UI of each catalogue with a template that uses this provider. The selected values for all those settings can then be used in the export.
+	 * Returns an array of settings that will be displayed in the UI of each catalogue.
 	 */
-	abstract public function getSettings(
-	):array;
+	public function getSettings(
+	):array
+	{
+		return [];
+	}
 
 	/**
-	 * Returns an array of meta information which can be used to forward information to the export which could otherwise not be received.
+	 * Returns an array of meta information.
 	 */
-	abstract public function getMetaInfo(
-	):array;
+	public function getMetaInfo(
+	):array
+	{
+		return [];
+	}
 
-	abstract public function getCustomFilters(
-	):array;
+	public function getCustomFilters(
+	):array
+	{
+		return [];
+	}
 
-	abstract public function getAssignments(
-	):array;
+	public function getAssignments(
+	):array
+	{
+		return [];
+	}
 
-	abstract public function getFilter(
-	):array;
+	public function getFilter(
+	):array
+	{
+		return [];
+	}
 
-	abstract public function hasExtendedMappings(
-	):bool;
+	public function hasExtendedMappings(
+	):bool
+	{
+		return false;
+	}
 
-	abstract public function getResultConverterClass(
-	):string;
+	public function getResultConverterClass(
+	):string
+	{
+		return '';
+	}
 
 	/**
 	 * Returns a container which contains all result converters for a given template.
 	 */
-	abstract public function getResultConverterContainer(
-	):ResultConverterContainer;
+	public function getResultConverterContainer(
+	):ResultConverterContainer
+	{
+		return pluginApp(DefaultResultConverterContainer::class);
+	}
 
-	abstract public function getDefaultCatalogSettings(
-	):array;
+	public function getDefaultCatalogSettings(
+	):array
+	{
+		return [];
+	}
 
 	/**
 	 * Register hooks in specific event slots
 	 */
-	abstract public function getHooks(
-	);
+	public function getHooks(
+	)
+	{
+		return null;
+	}
 
 	/**
 	 * Gets sections
 	 */
-	abstract public function getSections(
-	):Sections;
+	public function getSections(
+	):Sections
+	{
+		return pluginApp(Sections::class);
+	}
 
 	/**
 	 * Gets devcache intervals
 	 */
-	abstract public function getDevcacheIntervals(
-	):Intervals;
+	public function getDevcacheIntervals(
+	):Intervals
+	{
+		return pluginApp(DefaultIntervals::class);
+	}
 
 	/**
 	 * Gets Channel Map custom keys
 	 */
-	abstract public function getMapFieldKeys(
-	):array;
+	public function getMapFieldKeys(
+	):array
+	{
+		return [];
+	}
 
 	/**
 	 * Gets forced fields for channel
 	 */
-	abstract public function getForcedFieldsForChannel(
-	):TemplateGroupContainer;
+	public function getForcedFieldsForChannel(
+	):TemplateGroupContainer
+	{
+		return pluginApp(TemplateGroupContainer::class);
+	}
 
 	/**
 	 * Returns a container in which all TemplateGroups of this template are collected.
