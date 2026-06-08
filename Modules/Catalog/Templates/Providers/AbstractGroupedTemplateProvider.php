@@ -25,6 +25,11 @@ use Plenty\Modules\Catalog\Services\UI\Sections\Sections;
 abstract class AbstractGroupedTemplateProvider implements CatalogGroupedTemplateProviderContract
 
 {
+	/**
+	 * PHPStan-Fix: the currently booting template. Set by the framework / concrete
+	 * provider constructor and read via $this->template->getName()/getType().
+	 */
+	protected TemplateContract $template;
 
 	public function isPreviewable(
 	):bool
