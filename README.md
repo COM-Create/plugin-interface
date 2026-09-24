@@ -8,3 +8,5 @@ maintained.
 
 - `phpstan-blacklist/` – PlentyONE build blacklist for PHPStan (functions and classes the
   Plenty plugin build rejects). See `phpstan-blacklist/README.md`.
+- `docs/plenty-plugin-guide.md` – general PlentyONE plugin development guide (service
+  providers, routing, migrations, crons, events, config, translations).
