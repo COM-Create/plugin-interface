@@ -1,0 +1,65 @@
+# PlentyONE build blacklist for spaze/phpstan-disallowed-calls.
+#
+# BLACKLIST, not a whitelist: only constructs confirmed forbidden by a real
+# PlentyONE plugin build, plus a few marked rules of thumb (I/O, network, shell).
+# The list is incomplete. See README.md in this directory.
+#
+# Include AFTER spaze's extension.neon (it defines the parameter schema):
+#     includes:
+#         - <composer-global>/vendor/spaze/phpstan-disallowed-calls/extension.neon
+#         - <plugin-interface>/phpstan-blacklist/plenty-blacklist.neon
+#
+# NEVER reword an existing message: PHPStan and Kai's gate key their baselines on
+# the message text, so a changed message turns every frozen finding into a new one.
+# Only add entries. No allowIn here - per-plugin exceptions belong into the
+# plugin's own phpstan.neon as ignoreErrors.
+# Indentation: tabs only.
+
+parameters:
+	disallowedFunctionCalls:
+		-
+			function: 'get_object_vars()'
+			message: 'PlentyONE-Build: php function "get_object_vars" is not allowed'
+			errorIdentifier: 'plenty.disallowedFunction'
+			errorTip: 'Property direkt lesen, instanceof-Guard davor – siehe phpstan-blacklist/README.md'
+		-
+			function: 'ctype_digit()'
+			message: 'PlentyONE-Build: php function "ctype_digit" is not allowed'
+			errorIdentifier: 'plenty.disallowedFunction'
+			errorTip: 'Zeichenvergleich $c >= ''0'' && $c <= ''9'' – siehe phpstan-blacklist/README.md'
+		-
+			function: 'mb_strtoupper()'
+			message: 'PlentyONE-Build: php function "mb_strtoupper" is not allowed'
+			errorIdentifier: 'plenty.disallowedFunction'
+			errorTip: 'strtoupper() (nur ASCII) plus eigene Tabelle – siehe phpstan-blacklist/README.md'
+		-
+			function: 'mb_strtolower()'
+			message: 'PlentyONE-Build: php function "mb_strtolower" is not allowed'
+			errorIdentifier: 'plenty.disallowedFunction'
+			errorTip: 'strtolower() (nur ASCII) plus eigene Tabelle – siehe phpstan-blacklist/README.md'
+		-
+			function: 'iconv()'
+			message: 'PlentyONE-Build: php function "iconv" is not allowed'
+			errorIdentifier: 'plenty.disallowedFunction'
+			errorTip: 'eigene Umschrifttabelle – siehe phpstan-blacklist/README.md'
+		-
+			function: 'class_exists()'
+			message: 'PlentyONE-Build: php function "class_exists" is not allowed'
+			errorIdentifier: 'plenty.disallowedFunction'
+			errorTip: 'try/catch um den Aufruf, Throwable auswerten – siehe phpstan-blacklist/README.md'
+		-
+			function: 'get_class_methods()'
+			message: 'PlentyONE-Build: php function "get_class_methods" is not allowed'
+			errorIdentifier: 'plenty.disallowedFunction'
+			errorTip: 'Methoden explizit aufrufen – siehe phpstan-blacklist/README.md'
+		-
+			function: ['file_get_contents()', 'file_put_contents()', 'fopen()', 'unlink()', 'exec()', 'shell_exec()', 'system()', 'passthru()', 'proc_open()', 'curl_*()']
+			message: 'PlentyONE-Build: I/O, Netzwerk und Prozesse sind in Plugins nicht erlaubt (Faustregel, nicht einzeln im Build belegt)'
+			errorIdentifier: 'plenty.disallowedFunction'
+			errorTip: 'Plenty-Storage bzw. Guzzle statt Dateisystem/cURL – siehe phpstan-blacklist/README.md'
+	disallowedNamespaces:
+		-
+			namespace: 'Reflection*'
+			message: 'PlentyONE-Build: class "ReflectionClass" is not allowed (gilt für alle Reflection-Klassen)'
+			errorIdentifier: 'plenty.disallowedClass'
+			errorTip: 'Signatur per gezielt provoziertem TypeError ermitteln – siehe phpstan-blacklist/README.md'
