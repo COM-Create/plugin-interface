@@ -1,0 +1,10 @@
+# Runs the blacklist rules against the fixtures in this directory. See run-tests.php
+# for the assertions and phpstan-blacklist/README.md for how to run this.
+
+includes:
+    - ../blacklist.php
+
+parameters:
+    level: 0
+    paths:
+        - fixtures
