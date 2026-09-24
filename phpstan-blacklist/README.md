@@ -61,8 +61,11 @@ Gilt ab Level 0. Treffer tragen den Identifier `plenty.disallowedFunction` bzw.
 
 I/O, Netzwerk, Prozesse und Dateisystem sind in Plugins gesperrt:
 `file_get_contents()`, `file_put_contents()`, `fopen()`, `unlink()`, `exec()`,
-`shell_exec()`, `system()`, `passthru()`, `proc_open()`, `curl_*()`.
-Stattdessen: Plenty-Storage bzw. Guzzle.
+`shell_exec()`, `system()`, `passthru()`, `proc_open()`.
+Stattdessen: Plenty-Storage.
+
+`curl_*()` ist **erlaubt** (steht auf Plentys Whitelist, läuft produktiv in unseren Plugins).
+Guzzle ist für neuen Code trotzdem die bevorzugte Wahl – das ist Stil, kein Build-Verbot.
 
 ### Verboten, aber von PHPStan NICHT geprüft
 

@@ -53,7 +53,7 @@ parameters:
 			errorIdentifier: 'plenty.disallowedFunction'
 			errorTip: 'Methoden explizit aufrufen – siehe phpstan-blacklist/README.md'
 		-
-			function: ['file_get_contents()', 'file_put_contents()', 'fopen()', 'unlink()', 'exec()', 'shell_exec()', 'system()', 'passthru()', 'proc_open()', 'curl_*()']
+			function: ['file_get_contents()', 'file_put_contents()', 'fopen()', 'unlink()', 'exec()', 'shell_exec()', 'system()', 'passthru()', 'proc_open()']
 			message: 'PlentyONE-Build: I/O, Netzwerk und Prozesse sind in Plugins nicht erlaubt (Faustregel, nicht einzeln im Build belegt)'
 			errorIdentifier: 'plenty.disallowedFunction'
 			errorTip: 'Plenty-Storage bzw. Guzzle statt Dateisystem/cURL – siehe phpstan-blacklist/README.md'
