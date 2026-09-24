@@ -33,11 +33,6 @@ parameters:
 			errorIdentifier: 'plenty.disallowedFunction'
 			errorTip: 'strtoupper() (nur ASCII) plus eigene Tabelle – siehe phpstan-blacklist/README.md'
 		-
-			function: 'mb_strtolower()'
-			message: 'PlentyONE-Build: php function "mb_strtolower" is not allowed'
-			errorIdentifier: 'plenty.disallowedFunction'
-			errorTip: 'strtolower() (nur ASCII) plus eigene Tabelle – siehe phpstan-blacklist/README.md'
-		-
 			function: 'iconv()'
 			message: 'PlentyONE-Build: php function "iconv" is not allowed'
 			errorIdentifier: 'plenty.disallowedFunction'
