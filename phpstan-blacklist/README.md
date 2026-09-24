@@ -106,3 +106,9 @@ Regeln für die neon:
 **Gut zu wissen:** Kai friert den Altbestand eines Repos ein, bevor er etwas ändert
 (Baseline). Ein neuer Listeneintrag fängt deshalb nur neu geschriebenen Code – bestehende
 Verstöße im Altcode fallen dadurch nicht auf. Altcode nachziehen wäre ein eigener Durchgang.
+
+**Nie in Kais Stub-Checkout arbeiten:** `/var/www/kai/ops/deps/plugin-interface/` auf dem
+Kai-Server ist kein normaler Checkout – `deps.py setup` setzt ihn bei jedem Lauf per
+`git reset --hard` zurück, ohne Warnung. Änderungen dort gehen kommentarlos verloren. Für
+einen Listeneintrag dieses Repo separat klonen, dort committen und einen eigenen, kleinen
+PR gegen `phpstan-stubs` stellen.
