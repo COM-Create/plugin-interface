@@ -57,6 +57,7 @@ Gilt ab Level 0. Treffer tragen den Identifier `plenty.disallowedFunction` bzw.
 | `iconv()` | `php function "iconv" is not allowed` | eigene Umschrifttabelle |
 | `class_exists()` | `php function "class_exists" is not allowed` | `try`/`catch` um den Aufruf, `Throwable` auswerten |
 | `get_class_methods()` | `php function "get_class_methods" is not allowed` | Methoden explizit aufrufen |
+| `is_scalar()` | `php function "is_scalar" is not allowed` | gezielt `is_string()` (bzw. `is_int()`, `is_float()`, `is_bool()`) prüfen |
 | `Reflection*` (alle Reflection-Klassen) | `class "ReflectionClass" is not allowed` | Signatur per gezielt provoziertem `TypeError` ermitteln |
 
 ### Faustregel (nicht einzeln im Build belegt)

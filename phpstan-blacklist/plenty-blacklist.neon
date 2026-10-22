@@ -48,6 +48,11 @@ parameters:
 			errorIdentifier: 'plenty.disallowedFunction'
 			errorTip: 'Methoden explizit aufrufen – siehe phpstan-blacklist/README.md'
 		-
+			function: 'is_scalar()'
+			message: 'PlentyONE-Build: php function "is_scalar" is not allowed'
+			errorIdentifier: 'plenty.disallowedFunction'
+			errorTip: 'is_string(), is_int(), is_float() oder is_bool() gezielt prüfen – siehe phpstan-blacklist/README.md'
+		-
 			function: ['file_get_contents()', 'file_put_contents()', 'fopen()', 'unlink()', 'exec()', 'shell_exec()', 'system()', 'passthru()', 'proc_open()']
 			message: 'PlentyONE-Build: I/O, Netzwerk und Prozesse sind in Plugins nicht erlaubt (Faustregel, nicht einzeln im Build belegt)'
 			errorIdentifier: 'plenty.disallowedFunction'
