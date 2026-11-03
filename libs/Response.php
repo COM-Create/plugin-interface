@@ -7,5 +7,9 @@ namespace Symfony\Component\HttpFoundation;
  */
 abstract class Response 
 {
-
+	/**
+	 * PHPStan-Fix: Symfony's Response::send() exists at runtime.
+	 * @return static
+	 */
+	public function send() { return $this; }
 }
