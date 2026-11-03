@@ -45,6 +45,13 @@ namespace Illuminate\Support\Facades {
          */
         public static function remember(string $key, $ttl, callable $callback) { return null; }
 
+        /**
+         * @param string $key
+         * @param mixed $value
+         * @return bool
+         */
+        public static function forever(string $key, $value): bool { return true; }
+
         /** @return bool */
         public static function flush(): bool { return true; }
     }
@@ -143,8 +150,30 @@ namespace Illuminate\Http\Client {
         /** @return self */
         public function withoutVerifying(): self { return $this; }
 
+        /**
+         * @param array<string, mixed> $options Guzzle request options
+         * @return self
+         */
+        public function withOptions(array $options): self { return $this; }
+
+        /**
+         * @param string $content
+         * @param string $contentType
+         * @return self
+         */
+        public function withBody(string $content, string $contentType = 'application/json'): self { return $this; }
+
+        /**
+         * @param int $seconds
+         * @return self
+         */
+        public function connectTimeout(int $seconds): self { return $this; }
+
         /** @return self */
         public function asJson(): self { return $this; }
+
+        /** @return self */
+        public function asForm(): self { return $this; }
 
         /**
          * @return self
@@ -254,6 +283,14 @@ namespace Illuminate\Http\Client {
         /** @return object|null */
         public function object(): ?object { return null; }
     }
+}
+
+namespace Illuminate\Http {
+
+    /**
+     * Returned at runtime by Plenty\Plugin\Http\Response::json() (Laravel's JsonResponse).
+     */
+    abstract class JsonResponse extends \Symfony\Component\HttpFoundation\Response {}
 }
 
 namespace Illuminate\Routing {

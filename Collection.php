@@ -9,8 +9,18 @@ use Illuminate\Support\Traits\Macroable;
 use Traversable;
 use stdClass;
 
-abstract class Collection 
+/**
+ * PHPStan-Fix: iterable like the runtime class.
+ * @implements \IteratorAggregate<array-key, mixed>
+ */
+abstract class Collection implements \IteratorAggregate
 {
+	/**
+	 * @return \Traversable<array-key, mixed>
+	 */
+	abstract public function getIterator(
+	):\Traversable;
+
 
 	/**
 	 * Get all of the items in the collection.
