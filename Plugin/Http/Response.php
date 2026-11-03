@@ -175,6 +175,9 @@ abstract class Response extends \Symfony\Component\HttpFoundation\Response
 
 	/**
 	 * Return a new JSON response from the application.
+	 *
+	 * PHPStan-Fix: the runtime returns Laravel's JsonResponse.
+	 * @return \Illuminate\Http\JsonResponse
 	 */
 	abstract public function json(
 		 $data = [], 

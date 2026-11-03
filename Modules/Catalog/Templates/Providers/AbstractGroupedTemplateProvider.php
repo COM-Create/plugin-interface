@@ -28,8 +28,11 @@ abstract class AbstractGroupedTemplateProvider implements CatalogGroupedTemplate
 	/**
 	 * PHPStan-Fix: the currently booting template. Set by the framework / concrete
 	 * provider constructor and read via $this->template->getName()/getType().
+	 * Untyped like the runtime class: subclasses redeclare it without a type.
+	 *
+	 * @var TemplateContract
 	 */
-	protected TemplateContract $template;
+	protected $template;
 
 	public function isPreviewable(
 	):bool
